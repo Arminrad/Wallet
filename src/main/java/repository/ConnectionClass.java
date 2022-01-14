@@ -9,7 +9,7 @@ public class ConnectionClass {
     private static ConnectionClass connectionClass;
     private String url = "jdbc:postgresql://localhost:5432/postgres";
     private String username = "postgres";
-    private String password = "admin";
+    private String password = "123qweR";
     private ConnectionClass(){
         try {
             Class.forName("org.postgresql.Driver");

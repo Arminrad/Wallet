@@ -12,9 +12,7 @@ public class Main {
         wallet.createWalletTable();
         transaction.createTransactionTable();
         wallet.insertNewWalletTable(2000000.0);
-        Wallet wallet1 = wallet.findIdWalletTable(1);
-        double newAmount = wallet1.getAmount() + 10.0;
-        transaction.deposit(newAmount, wallet1.getId());
+        transaction.deposit(2500d,1);
 
     }
 }
