@@ -1,3 +1,4 @@
+import model.Wallet;
 import repository.ConnectionClass;
 import repository.TransactionRepository;
 import repository.WalletRepository;
@@ -11,7 +12,9 @@ public class Main {
         wallet.createWalletTable();
         transaction.createTransactionTable();
         wallet.insertNewWalletTable(2000000.0);
-        wallet.deposit(1000000.0, 1);
+        Wallet wallet1 = wallet.findIdWalletTable(1);
+        double newAmount = wallet1.getAmount() + 10.0;
+        transaction.deposit(newAmount, wallet1.getId());
 
     }
 }

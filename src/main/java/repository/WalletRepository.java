@@ -1,8 +1,13 @@
 package repository;
 
+import model.Wallet;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WalletRepository {
     private Connection connection = ConnectionClass.getInstance().getConnection();
@@ -30,28 +35,39 @@ public class WalletRepository {
         }
     }
 
-    public void withdraw(Double amount, int id ){
-        String withdrawStatement = "UPDATE wallet SET amount = ? WHERE id = ?";
+    public List<Wallet> findAllWalletTable() {
+        String findAllStatement = "SELECT * FROM wallet;";
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(withdrawStatement);
-            preparedStatement.setDouble(1, amount);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
+            PreparedStatement walletPrepared = connection.prepareStatement(findAllStatement);
+            ResultSet result = walletPrepared.executeQuery();
+            List<Wallet> wallets = new ArrayList<>();
+            while (result.next()){
+                Wallet wallet = new Wallet(result.getInt("id"), result.getDouble("amount"));
+                wallets.add(wallet);
+            }
+            return wallets;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public void deposit(Double amount, int id ){
-        String depositStatement = "UPDATE wallet SET amount = ? WHERE id = ?";
+    public Wallet findIdWalletTable(int walletId) {
+        String findIdStatement = "SELECT * FROM wallet WHERE id = ?;";
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(depositStatement);
-            preparedStatement.setDouble(1, amount);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
+            PreparedStatement walletPrepared = connection.prepareStatement(findIdStatement);
+            walletPrepared.setInt(1, walletId);
+            ResultSet result = walletPrepared.executeQuery();
+            while (result.next()){
+                Wallet wallet = new Wallet(result.getInt("id"), result.getDouble("amount"));
+                return wallet;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 }
